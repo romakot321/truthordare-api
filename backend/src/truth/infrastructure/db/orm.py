@@ -4,6 +4,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.testing.schema import mapped_column
 
+from src.core.category.orm import CategoryDB
 from src.core.language.orm import LanguageDB
 from src.db.base import Base, BaseMixin
 
@@ -13,10 +14,12 @@ class TruthDB(BaseMixin, Base):
 
     text: Mapped[str]
     language_id: Mapped[UUID] = mapped_column(ForeignKey("languages.id", ondelete="CASCADE"))
+    category_id: Mapped[UUID] = mapped_column(ForeignKey("categories.id", ondelete="CASCADE"))
     likes: Mapped[int] = mapped_column(server_default="0", default=0)
     dislikes: Mapped[int] = mapped_column(server_default="0", default=0)
 
     language: Mapped["LanguageDB"] = relationship(back_populates="truths", lazy="selectin")
+    category: Mapped["CategoryDB"] = relationship(back_populates="truths", lazy="selectin")
 
     def __str__(self):
         return self.text

@@ -4,6 +4,7 @@ from typing import AsyncGenerator
 import pytest
 from sqlalchemy import select
 
+from src.core.category.orm import CategoryDB
 from src.core.language.orm import LanguageDB
 from src.dare.domain.dtos import DareReadDTO
 from src.dare.infrastructure.db.orm import DareDB
@@ -46,9 +47,11 @@ async def _create_dare(text: str) -> AsyncGenerator[DareReadDTO]:
     async with uow:
         lang = LanguageDB(title="Test")
         uow.session.add(lang)
+        category = CategoryDB(title="Test")
+        uow.session.add(category)
         await uow.session.flush()
 
-        model = DareDB(text=text, language_id=lang.id)
+        model = DareDB(text=text, language_id=lang.id, category_id=category.id)
         uow.session.add(model)
         await uow.commit()
 
@@ -56,4 +59,5 @@ async def _create_dare(text: str) -> AsyncGenerator[DareReadDTO]:
 
         await uow.session.delete(model)
         await uow.session.delete(lang)
+        await uow.session.delete(category)
         await uow.commit()

@@ -13,10 +13,12 @@ class DareDB(BaseMixin, Base):
 
     text: Mapped[str]
     language_id: Mapped[UUID] = mapped_column(ForeignKey("languages.id", ondelete="CASCADE"))
+    category_id: Mapped[UUID] = mapped_column(ForeignKey("categories.id", ondelete="CASCADE"))
     likes: Mapped[int] = mapped_column(server_default="0", default=0)
     dislikes: Mapped[int] = mapped_column(server_default="0", default=0)
 
     language: Mapped["LanguageDB"] = relationship(back_populates="dares", lazy="selectin")
+    category: Mapped["CategoryDB"] = relationship(back_populates="dares", lazy="selectin")
 
     def __str__(self):
         return self.text

@@ -10,6 +10,7 @@ from src.db.base import Base
 from src.truth.infrastructure.db.orm import TruthDB
 from src.dare.infrastructure.db.orm import DareDB
 from src.core.language.orm import LanguageDB
+from src.core.category.orm import CategoryDB
 from src.core.config import settings
 
 # this is the Alembic Config object, which provides
