@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 
+from src.core.category.admin import CategoryAdmin
 from src.core.language.admin import LanguageAdmin
 from src.db.engine import engine
 from src.truth.api.rest import router as truth_router
@@ -22,3 +23,4 @@ admin = Admin(app, engine=engine, authentication_backend=authentication_backend)
 admin.add_view(TruthAdmin)
 admin.add_view(DareAdmin)
 admin.add_view(LanguageAdmin)
+admin.add_view(CategoryAdmin)
